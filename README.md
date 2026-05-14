@@ -106,10 +106,10 @@ Valida um cenário de limite, retirando os produtos do estoque até que cada um 
 
 Os vídeos das execuções estão disponíveis na pasta `tests-results/`.
 
-Eles podem ser visualizados diretamente pelo GitHub ou baixados para análise local:
+Eles podem ser baixados para análise local:
 
 ```text
-evidence/
+evidence/test-results
   stock_count.mp4
   record_stock.mp4
   remove_products.mp4
