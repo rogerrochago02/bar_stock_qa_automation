@@ -30,13 +30,17 @@ Minha atuação envolveu testes manuais, validação de regras de negócio, iden
 - Playwright
 - TypeScript
 - Node.js
-- Git e GitHub
+- Git, GitHub e GitHub Actions
 
 ## Estrutura do projeto
 
 ```text
 bar_stock_qa_automation/
+├── .github/
+│   └── workflows/
+│       └── playwright.yml
 ├── e2e/
+│   ├── fixtures.ts
 │   ├── stock_count.spec.ts
 │   ├── record_stock.spec.ts
 │   └── remove_products.spec.ts
@@ -46,6 +50,7 @@ bar_stock_qa_automation/
 │   └── remove_products.mp4
 ├── playwright.config.ts
 ├── package.json
+├── package-lock.json
 └── README.md
 ```
 
@@ -103,10 +108,21 @@ Os vídeos das execuções estão na pasta `evidence/`:
 - `record_stock.mp4`
 - `remove_products.mp4`
 
+## Integração contínua
+
+O workflow `.github/workflows/playwright.yml` executa a suíte a cada push e pull request na branch `main`:
+
+1. clona a aplicação testada;
+2. instala as dependências e o Chromium do Playwright;
+3. sobe a aplicação na porta 5500;
+4. executa os testes e publica o relatório HTML como artefato.
+
+O Firebase é substituído por um stub local em `e2e/fixtures.ts`, que usa `localStorage`. Isso mantém os testes rápidos, reproduzíveis e isolados de dados externos.
+
 ## Observações
 
 - Os testes utilizam dados fixos de produtos e a funcionária `Maria Santos`.
-- A aplicação precisa estar limpa (sem movimentações anteriores) para que os cenários sejam reproduzíveis.
+- Cada teste roda em um contexto isolado, com dados próprios no `localStorage`.
 - O teste de retirada até zero pode levar mais tempo por executar várias movimentações.
 
 ## Autor
