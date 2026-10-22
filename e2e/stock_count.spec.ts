@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 test('stock count', async ({ page }) => {
 
@@ -25,5 +25,5 @@ test('stock count', async ({ page }) => {
 
     await page.getByRole('button', {name: "History"}).click();
 
-    await expect(page.locator('#historyList')).toContainText('Estoque atualizado');
+    await expect(page.locator('#historyList')).toContainText('Current Stock Updated');
 });
