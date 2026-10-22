@@ -1,115 +1,114 @@
 # bar_stock_qa_automation
 
+[![Playwright Tests](https://github.com/rogerrochago02/bar_stock_qa_automation/actions/workflows/playwright.yml/badge.svg)](https://github.com/rogerrochago02/bar_stock_qa_automation/actions/workflows/playwright.yml)
 
-Este repositório contém testes automatizados desenvolvidos com **Playwright** para validar os principais fluxos de um sistema web de controle de estoque para bar.
+Testes E2E com Playwright para o sistema de controle de estoque de bar (Stock System).
 
-A aplicação testada faz parte do projeto **Sistema de Estoque**, desenvolvido em conjunto no repositório:  
-[ofe-lipe/Sistema de estoque](https://github.com/ofe-lipe/Stock_system)
-
-O foco deste repositório é documentar e apresentar a camada de **QA Automation**, incluindo os códigos dos testes, os cenários validados e as evidências em vídeo das execuções.
-
----
+A aplicação testada faz parte do projeto [ofe-lipe/Stock_system](https://github.com/ofe-lipe/Stock_system). Este repositório concentra a camada de QA Automation, incluindo os testes, a configuração de execução e as evidências em vídeo.
 
 ## Sobre o projeto testado
 
-O sistema simula o controle de estoque de bebidas em um bar, permitindo registrar:
+O sistema simula o controle de estoque de bebidas em um bar, permitindo:
 
-- contagem inicial de estoque;
-- retirada de produtos;
-- retorno de produtos ao estoque;
-- histórico de movimentações;
-- bloqueio de retirada quando não há estoque disponível.
+- registrar a contagem inicial de estoque;
+- registrar retiradas e devoluções de produtos;
+- consultar o histórico de movimentações;
+- bloquear retiradas quando não há estoque disponível.
 
-O projeto foi desenvolvido em conjunto e com apoio de ferramentas de IA, a partir de um cenário inspirado em uma necessidade real de controle de estoque para um estabelecimento na Irlanda.
+Minha atuação envolveu testes manuais, validação de regras de negócio, identificação de inconsistências, documentação e automação dos principais fluxos com Playwright.
 
-Minha atuação envolveu a construção da aplicação com apoio de ferramentas de IA e a prática de **QA**, incluindo testes manuais, validação de regras de negócio, identificação de inconsistências, melhorias no comportamento do sistema, documentação e criação de testes automatizados com Playwright.
+## Cenários automatizados
 
----
+| Arquivo | Cenário validado |
+|---|---|
+| `e2e/stock_count.spec.ts` | Contagem inicial de estoque, mensagem de sucesso e registro no histórico |
+| `e2e/record_stock.spec.ts` | Retirada e devolução de produtos, mensagens de confirmação e histórico |
+| `e2e/remove_products.spec.ts` | Retirada de produtos até o estoque zerar e bloqueio de nova retirada sem estoque |
 
-## Objetivo das automações
-
-As automações foram criadas para validar os principais fluxos da aplicação e garantir que regras importantes continuem funcionando após alterações no código.
-
-Os testes cobrem cenários como:
-
-- registro de contagem inicial de estoque;
-- registro de movimentações de retirada e retorno;
-- validação de mensagens de sucesso;
-- validação de alertas do navegador;
-- retirada de produtos até o estoque chegar a zero;
-- bloqueio de novas retiradas quando não há estoque disponível.
-
----
-
-## Tecnologias utilizadas
+## Tecnologias
 
 - Playwright
-- JavaScript / TypeScript
+- TypeScript
 - Node.js
-- VS Code
-- Git / GitHub
+- Git e GitHub
 
----
+## Estrutura do projeto
 
-## Testes automatizados
+```text
+bar_stock_qa_automation/
+├── e2e/
+│   ├── stock_count.spec.ts
+│   ├── record_stock.spec.ts
+│   └── remove_products.spec.ts
+├── evidence/
+│   ├── stock_count.mp4
+│   ├── record_stock.mp4
+│   └── remove_products.mp4
+├── playwright.config.ts
+├── package.json
+└── README.md
+```
 
-### 1. Stock Count
+## Como executar
 
-Valida o fluxo de registro da contagem inicial de estoque.
+### Pré-requisitos
 
-**Cenário testado:**
+- Node.js 18 ou superior
+- Aplicação Stock System disponível em `http://127.0.0.1:5500/Stock_system/index.html`
 
-1. Acessar a aplicação.
-2. Abrir a aba `Stock Count`.
-3. Preencher os campos de quantidade dos produtos.
-4. Salvar o estoque.
-5. Validar a mensagem de sucesso.
-6. Conferir o registro no histórico.
+### 1. Preparar a aplicação
 
-**Evidência:** `evidence/stock_count.mp4`
+Clone o repositório da aplicação e sirva a pasta pai na porta 5500:
 
----
+```bash
+git clone https://github.com/ofe-lipe/Stock_system.git
+cd Stock_system
+npx http-server .. -p 5500
+```
 
-### 2. Record Stock
+Também é possível usar a extensão Live Server do VS Code apontando para a pasta que contém `Stock_system`.
 
-Valida o fluxo de movimentação de estoque, incluindo retirada e retorno de produtos.
+Confirme que a aplicação abre em:
 
-**Cenário testado:**
+```text
+http://127.0.0.1:5500/Stock_system/index.html
+```
 
-1. Acessar a área de registro de movimentação.
-2. Selecionar o tipo de movimentação.
-3. Selecionar produto, quantidade, destino/origem e funcionário responsável.
-4. Enviar a movimentação.
-5. Validar a conclusão do processo.
+### 2. Executar os testes
 
-**Evidência:** `evidence/record_stock.mp4`
+Em outro terminal:
 
----
+```bash
+git clone https://github.com/rogerrochago02/bar_stock_qa_automation.git
+cd bar_stock_qa_automation
+npm install
+npx playwright install chromium
+npm test
+```
 
-### 3. Remove Products Until Zero
+## Scripts disponíveis
 
-Valida um cenário de limite, retirando os produtos do estoque até que cada um chegue a zero.
-
-**Cenário testado:**
-
-1. Registrar estoque inicial para todos os produtos.
-2. Acessar a área de movimentação.
-3. Para cada produto, realizar retiradas sucessivas até o estoque chegar a zero.
-4. Após zerar o estoque do produto, tentar retirar mais 1 unidade.
-5. Validar se o sistema bloqueia a retirada por falta de estoque.
-
-**Evidência:** `evidence/remove_products.mp4`
-
----
+| Comando | Descrição |
+|---|---|
+| `npm test` | Executa todos os testes em modo headless |
+| `npm run test:headed` | Executa os testes com o navegador visível |
+| `npm run test:ui` | Abre o modo interativo do Playwright |
+| `npm run report` | Abre o último relatório HTML gerado |
 
 ## Evidências
 
-Os vídeos das execuções estão disponíveis na pasta `tests-results/`.
+Os vídeos das execuções estão na pasta `evidence/`:
 
-Eles podem ser baixados para análise local:
+- `stock_count.mp4`
+- `record_stock.mp4`
+- `remove_products.mp4`
 
-```text
-evidence/test-results
-  stock_count.mp4
-  record_stock.mp4
-  remove_products.mp4
+## Observações
+
+- Os testes utilizam dados fixos de produtos e a funcionária `Maria Santos`.
+- A aplicação precisa estar limpa (sem movimentações anteriores) para que os cenários sejam reproduzíveis.
+- O teste de retirada até zero pode levar mais tempo por executar várias movimentações.
+
+## Autor
+
+Roger Rocha

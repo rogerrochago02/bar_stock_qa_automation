@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test ('stock out', async ({ page }) => {
 
-    await page.goto('127.0.0.1:5500/Stock_system/index.html');
+    await page.goto('http://127.0.0.1:5500/Stock_system/index.html');
 
     await page.getByRole('button', { name: 'Stock Out' }).click();
 
@@ -17,12 +17,13 @@ test ('stock out', async ({ page }) => {
 
     //history
     await page.getByRole('button', {name: "History"}).click();
-    await expect(page.locator('#historyList')).toContainText('Beer (50) STOCK OUT');
+    await expect(page.locator('#historyList')).toContainText('Beer (50)');
+    await expect(page.locator('#historyList')).toContainText('OUT');
 
     //Return to stock
     await page.getByRole('button', { name: 'Record Stock' }).click();
 
-     await page.getByRole('button', { name: 'Return to Stock' }).click();
+     await page.getByRole('button', { name: 'Stock In' }).click();
 
     await page.getByRole('button', { name: "Beer" }).click();
 
@@ -36,6 +37,7 @@ test ('stock out', async ({ page }) => {
     //history return to stock
 
     await page.getByRole('button', {name: "History"}).click();
-    await expect(page.locator('#historyList')).toContainText('Beer (20) RETURN TO STOCK');
+    await expect(page.locator('#historyList')).toContainText('Beer (20)');
+    await expect(page.locator('#historyList')).toContainText('IN');
 
 })

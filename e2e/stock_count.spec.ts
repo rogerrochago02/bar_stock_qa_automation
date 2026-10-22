@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('stock count', async ({ page }) => {
 
-    await page.goto('127.0.0.1:5500/Stock_system/index.html');
+    await page.goto('http://127.0.0.1:5500/Stock_system/index.html');
 
     await page.getByRole('button', { name: 'Stock Count' }).click();
     await expect(page.getByRole('heading', { name: 'Stock Count' })).toBeVisible();
@@ -25,5 +25,5 @@ test('stock count', async ({ page }) => {
 
     await page.getByRole('button', {name: "History"}).click();
 
-    await expect(page.locator('#historyList')).toContainText('Current Stock Updated');
+    await expect(page.locator('#historyList')).toContainText('Estoque atualizado');
 });
