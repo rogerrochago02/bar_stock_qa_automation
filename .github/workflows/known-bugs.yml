@@ -1,0 +1,56 @@
+name: Known Bugs (expected failures)
+
+# Este workflow NÃO valida a saúde do app: ele reproduz defeitos já documentados.
+# Os 4 testes afirmam o comportamento correto, então 4 failed é o resultado
+# esperado. O relatório HTML é a prova. A falha não derruba o job para que o
+# badge principal do repositório continue verde.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  known-bugs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Clone Stock System app (commit com os defeitos)
+        run: |
+          git clone https://github.com/ofe-lipe/Stock_system.git Stock_system
+          git -C Stock_system checkout c70c2581c42e1a2a17c46de57285a413d0bb2377
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run known bugs
+        # 4 failed é o esperado: cada teste aponta o defeito na mensagem.
+        continue-on-error: true
+        run: |
+          npx --yes http-server . -p 5500 --silent &
+          npx --yes wait-on http://127.0.0.1:5500/Stock_system/index.html
+          npm run test:known-bugs
+
+      - name: Upload known bugs report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: known-bugs-report
+          path: |
+            known-bugs-report/
+            test-results-known-bugs/
+          retention-days: 30

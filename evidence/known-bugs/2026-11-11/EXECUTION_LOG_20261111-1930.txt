@@ -1,0 +1,190 @@
+﻿QA-2026-001 - Stock System - defeitos conhecidos (BUG-18 a BUG-21)
+Data/hora de inicio: 2026-11-11 19:30:13 -03:00
+Maquina: RAW - Microsoft Windows 11 Pro 10.0.26200
+Node: v25.9.0 | npm: 11.12.1 | Version 1.64.1 | Chromium do Playwright: 156.0.8078.4
+App: ofe-lipe/Stock_system commit c70c2581c42e1a2a17c46de57285a413d0bb2377
+Repo de teste: rogerrochago02/bar_stock_qa_automation commit 3e279f37360c722be19a3c7d8998fa3a621815f0 (+ arquivos desta rodada, sem commit)
+URL: http://127.0.0.1:5500/Stock_system/index.html | servidor: http-server . -p 5500 --silent (processo ja em execucao, SHA256 do script.js servido = E14DC737478CD4A5A014D5CB45F049EEF23BF50CF6FB97BEC2C172F59243B347)
+Firebase: stub em localStorage via e2e/fixtures.ts; nenhum dado real gravado.
+
+================================================================
+$ npx playwright test --project=chromium
+================================================================
+
+Running 3 tests using 3 workers
+
+  ok 1 [chromium] ÔÇ║ e2e\stock_count.spec.ts:3:5 ÔÇ║ stock count (2.7s)
+  ok 3 [chromium] ÔÇ║ e2e\record_stock.spec.ts:3:5 ÔÇ║ records stock out and return to stock (3.8s)
+  ok 2 [chromium] ÔÇ║ e2e\remove_products.spec.ts:3:5 ÔÇ║ remove products until zero in stock (11.3s)
+
+  3 passed (12.4s)
+
+
+================================================================
+$ npm run test:known-bugs
+================================================================
+
+> bar-stock-qa-automation@1.0.0 test:known-bugs
+> playwright test --project=known-bugs
+
+
+Running 4 tests using 4 workers
+
+  x  2 [known-bugs] ÔÇ║ e2e-known-bugs\bug-21-referenceerror-no-carregamento.spec.ts:3:5 ÔÇ║ BUG-21: carregamento deve terminar sem exce├º├úo n├úo tratada (3.0s)
+  x  4 [known-bugs] ÔÇ║ e2e-known-bugs\bug-19-contagem-aceita-negativo.spec.ts:3:5 ÔÇ║ BUG-19: contagem deve recusar quantidade negativa (8.3s)
+  x  3 [known-bugs] ÔÇ║ e2e-known-bugs\bug-20-recontagem-desconta-movimentacao.spec.ts:3:5 ÔÇ║ BUG-20: recontagem deve valer como estoque atual, sem descontar sa├¡da antiga (9.2s)
+  x  1 [known-bugs] ÔÇ║ e2e-known-bugs\bug-18-contagem-vazia-zera-estoque.spec.ts:16:5 ÔÇ║ BUG-18: contagem vazia deve ser recusada e preservar o estoque (9.2s)
+
+
+  1) [known-bugs] ÔÇ║ e2e-known-bugs\bug-18-contagem-vazia-zera-estoque.spec.ts:16:5 ÔÇ║ BUG-18: contagem vazia deve ser recusada e preservar o estoque 
+
+    Error: BUG-18: a contagem vazia deveria ser recusada e o estoque anterior deveria continuar em 10; o app zerou o estoque
+
+    expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong')
+    Expected: "10"
+    Received: "0"
+    Timeout:  5000ms
+
+    Call log:
+      - BUG-18: a contagem vazia deveria ser recusada e o estoque anterior deveria continuar em 10; o app zerou o estoque locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong') with timeout 5000ms
+      - waiting for locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong')
+        14 ├ù locator resolved to <strong>0</strong>
+           - unexpected value "0"
+
+
+      51 |       beer,
+      52 |       'BUG-18: a contagem vazia deveria ser recusada e o estoque anterior deveria continuar em 10; o app zerou o estoque'
+    > 53 |     ).toHaveText('10');
+         |       ^
+      54 |   }
+      55 | );
+      56 |
+        at C:\Users\roger\AppData\Local\Temp\opencode\stock-known-bugs\e2e-known-bugs\bug-18-contagem-vazia-zera-estoque.spec.ts:53:7
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results-known-bugs\bug-18-contagem-vazia-zera-2418e-usada-e-preservar-o-estoque-known-bugs\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results-known-bugs\bug-18-contagem-vazia-zera-2418e-usada-e-preservar-o-estoque-known-bugs\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results-known-bugs\bug-18-contagem-vazia-zera-2418e-usada-e-preservar-o-estoque-known-bugs\error-context.md
+
+  2) [known-bugs] ÔÇ║ e2e-known-bugs\bug-19-contagem-aceita-negativo.spec.ts:3:5 ÔÇ║ BUG-19: contagem deve recusar quantidade negativa 
+
+    Error: BUG-19: -5 no campo Beer deveria ser recusado (o campo declara min="0") e o estoque deveria continuar em 10; o app salvou o valor negativo
+
+    expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong')
+    Expected: "10"
+    Received: "-5"
+    Timeout:  5000ms
+
+    Call log:
+      - BUG-19: -5 no campo Beer deveria ser recusado (o campo declara min="0") e o estoque deveria continuar em 10; o app salvou o valor negativo locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong') with timeout 5000ms
+      - waiting for locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong')
+        13 ├ù locator resolved to <strong>-5</strong>
+           - unexpected value "-5"
+
+
+      34 |       beer,
+      35 |       'BUG-19: -5 no campo Beer deveria ser recusado (o campo declara min="0") e o estoque deveria continuar em 10; o app salvou o valor negativo'
+    > 36 |     ).toHaveText('10');
+         |       ^
+      37 |   }
+      38 | );
+      39 |
+        at C:\Users\roger\AppData\Local\Temp\opencode\stock-known-bugs\e2e-known-bugs\bug-19-contagem-aceita-negativo.spec.ts:36:7
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results-known-bugs\bug-19-contagem-aceita-neg-a50c8-recusar-quantidade-negativa-known-bugs\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results-known-bugs\bug-19-contagem-aceita-neg-a50c8-recusar-quantidade-negativa-known-bugs\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results-known-bugs\bug-19-contagem-aceita-neg-a50c8-recusar-quantidade-negativa-known-bugs\error-context.md
+
+  3) [known-bugs] ÔÇ║ e2e-known-bugs\bug-20-recontagem-desconta-movimentacao.spec.ts:3:5 ÔÇ║ BUG-20: recontagem deve valer como estoque atual, sem descontar sa├¡da antiga 
+
+    Error: BUG-20: a recontagem de 200 ├® o estoque atual e deveria mostrar 200; o app descontou de novo a sa├¡da de 50 feita antes da recontagem
+
+    expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong')
+    Expected: "200"
+    Received: "150"
+    Timeout:  5000ms
+
+    Call log:
+      - BUG-20: a recontagem de 200 ├® o estoque atual e deveria mostrar 200; o app descontou de novo a sa├¡da de 50 feita antes da recontagem locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong') with timeout 5000ms
+      - waiting for locator('.stock-card').filter({ hasText: 'Beer' }).locator('strong')
+        14 ├ù locator resolved to <strong>150</strong>
+           - unexpected value "150"
+
+
+      45 |       beer,
+      46 |       'BUG-20: a recontagem de 200 ├® o estoque atual e deveria mostrar 200; o app descontou de novo a sa├¡da de 50 feita antes da recontagem'
+    > 47 |     ).toHaveText('200');
+         |       ^
+      48 |   }
+      49 | );
+      50 |
+        at C:\Users\roger\AppData\Local\Temp\opencode\stock-known-bugs\e2e-known-bugs\bug-20-recontagem-desconta-movimentacao.spec.ts:47:7
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results-known-bugs\bug-20-recontagem-desconta-fc33f--sem-descontar-sa├¡da-antiga-known-bugs\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results-known-bugs\bug-20-recontagem-desconta-fc33f--sem-descontar-sa├¡da-antiga-known-bugs\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results-known-bugs\bug-20-recontagem-desconta-fc33f--sem-descontar-sa├¡da-antiga-known-bugs\error-context.md
+
+  4) [known-bugs] ÔÇ║ e2e-known-bugs\bug-21-referenceerror-no-carregamento.spec.ts:3:5 ÔÇ║ BUG-21: carregamento deve terminar sem exce├º├úo n├úo tratada 
+
+    Error: BUG-21: o carregamento deveria terminar sem exce├º├úo n├úo tratada no console (trecho duplicado em script.js:336-345)
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "ReferenceError: record is not defined (at http://127.0.0.1:5500/Stock_system/script.js:336:42)",
+    + ]
+
+      27 |       erros,
+      28 |       'BUG-21: o carregamento deveria terminar sem exce├º├úo n├úo tratada no console (trecho duplicado em script.js:336-345)'
+    > 29 |     ).toEqual([]);
+         |       ^
+      30 |   }
+      31 | );
+      32 |
+        at C:\Users\roger\AppData\Local\Temp\opencode\stock-known-bugs\e2e-known-bugs\bug-21-referenceerror-no-carregamento.spec.ts:29:7
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results-known-bugs\bug-21-referenceerror-no-c-7f979-nar-sem-exce├º├úo-n├úo-tratada-known-bugs\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results-known-bugs\bug-21-referenceerror-no-c-7f979-nar-sem-exce├º├úo-n├úo-tratada-known-bugs\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results-known-bugs\bug-21-referenceerror-no-c-7f979-nar-sem-exce├º├úo-n├úo-tratada-known-bugs\error-context.md
+
+  4 failed
+    [known-bugs] ÔÇ║ e2e-known-bugs\bug-18-contagem-vazia-zera-estoque.spec.ts:16:5 ÔÇ║ BUG-18: contagem vazia deve ser recusada e preservar o estoque 
+    [known-bugs] ÔÇ║ e2e-known-bugs\bug-19-contagem-aceita-negativo.spec.ts:3:5 ÔÇ║ BUG-19: contagem deve recusar quantidade negativa 
+    [known-bugs] ÔÇ║ e2e-known-bugs\bug-20-recontagem-desconta-movimentacao.spec.ts:3:5 ÔÇ║ BUG-20: recontagem deve valer como estoque atual, sem descontar sa├¡da antiga 
+    [known-bugs] ÔÇ║ e2e-known-bugs\bug-21-referenceerror-no-carregamento.spec.ts:3:5 ÔÇ║ BUG-21: carregamento deve terminar sem exce├º├úo n├úo tratada 
+
+
+Fim: 2026-11-11 19:30:43 -03:00

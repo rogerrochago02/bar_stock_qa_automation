@@ -34,7 +34,7 @@ jobs:
         run: |
           npx --yes http-server . -p 5500 --silent &
           npx --yes wait-on http://127.0.0.1:5500/Stock_system/index.html
-          npm test
+          npx playwright test --project=chromium
 
       - name: Upload report
         if: always()
