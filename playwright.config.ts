@@ -15,6 +15,9 @@ export default defineConfig({
   ],
   use: {
     baseURL: 'http://127.0.0.1:5500',
+    // Regra da equipe: sempre headless, sempre Chromium do Playwright.
+    // Proibido channel 'chrome', executablePath do Chrome do sistema ou --headed.
+    headless: true,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
